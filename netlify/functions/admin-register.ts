@@ -11,11 +11,6 @@ interface AdminRegsiterInput {
 
 const handler: Handler = async (event, context) => {
   const { body, headers } = event;
-  console.log(
-    '🚀 ~ file: admin-register.ts ~ line 14 ~ consthandler:Handler= ~ headers',
-    headers
-  );
-
   if (
     !headers['x-pizzastack-secret-key'] ||
     headers['x-pizzastack-secret-key'] !== 'mypizzastacksecretkey'
