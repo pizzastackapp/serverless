@@ -600,7 +600,7 @@ export type Query_RootAdminArgs = {
 
 
 export type Query_RootAdminLoginArgs = {
-  arg1: AdminLoginInput;
+  admin: AdminLoginInput;
 };
 
 
