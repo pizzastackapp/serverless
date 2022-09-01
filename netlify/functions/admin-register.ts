@@ -4,20 +4,17 @@ import { signToken } from '../common/jwt';
 import { api } from '../common/api';
 import { AdminRegisterInput } from '../common/sdk';
 import { config } from '../core/config';
+import { verifyHasura } from '../common/verifyHasura';
 
 const handler: Handler = async (event, context) => {
   const { body, headers } = event;
-  if (
-    !headers['x-pizzastack-secret-key'] ||
-    headers['x-pizzastack-secret-key'] !== config.hasuraPizzastackSecret
-  ) {
-    return {
-      statusCode: 403,
-      body: JSON.stringify({
-        message: "'x-pizzastack-secret-key' is missing or value is invalid",
-      }),
-    };
+
+  try {
+    verifyHasura(headers);
+  } catch (error) {
+    return JSON.parse(error.message);
   }
+
   const input: AdminRegisterInput = JSON.parse(body!).input.admin;
 
   const password = hashPassword(input.password);
