@@ -14,6 +14,7 @@ export type Scalars = {
   Int: number;
   Float: number;
   numeric: any;
+  timestamptz: any;
   uuid: any;
 };
 
@@ -1260,6 +1261,7 @@ export type Orders = {
   client_address: Scalars['String'];
   client_name: Scalars['String'];
   client_phone: Scalars['String'];
+  created_at?: Maybe<Scalars['timestamptz']>;
   id: Scalars['uuid'];
   /** An array relationship */
   order_items: Array<Orders_Menu>;
@@ -1320,6 +1322,7 @@ export type Orders_Bool_Exp = {
   client_address?: InputMaybe<String_Comparison_Exp>;
   client_name?: InputMaybe<String_Comparison_Exp>;
   client_phone?: InputMaybe<String_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   order_items?: InputMaybe<Orders_Menu_Bool_Exp>;
   status?: InputMaybe<Order_Status_Enum_Comparison_Exp>;
@@ -1337,6 +1340,7 @@ export type Orders_Insert_Input = {
   client_address?: InputMaybe<Scalars['String']>;
   client_name?: InputMaybe<Scalars['String']>;
   client_phone?: InputMaybe<Scalars['String']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
   order_items?: InputMaybe<Orders_Menu_Arr_Rel_Insert_Input>;
   status?: InputMaybe<Order_Status_Enum>;
@@ -1348,6 +1352,7 @@ export type Orders_Max_Fields = {
   client_address?: Maybe<Scalars['String']>;
   client_name?: Maybe<Scalars['String']>;
   client_phone?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
 };
 
@@ -1514,6 +1519,7 @@ export type Orders_Min_Fields = {
   client_address?: Maybe<Scalars['String']>;
   client_name?: Maybe<Scalars['String']>;
   client_phone?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
 };
 
@@ -1538,6 +1544,7 @@ export type Orders_Order_By = {
   client_address?: InputMaybe<Order_By>;
   client_name?: InputMaybe<Order_By>;
   client_phone?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   order_items_aggregate?: InputMaybe<Orders_Menu_Aggregate_Order_By>;
   status?: InputMaybe<Order_By>;
@@ -1558,6 +1565,8 @@ export enum Orders_Select_Column {
   /** column name */
   ClientPhone = 'client_phone',
   /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
   Id = 'id',
   /** column name */
   Status = 'status'
@@ -1568,6 +1577,7 @@ export type Orders_Set_Input = {
   client_address?: InputMaybe<Scalars['String']>;
   client_name?: InputMaybe<Scalars['String']>;
   client_phone?: InputMaybe<Scalars['String']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
   status?: InputMaybe<Order_Status_Enum>;
 };
@@ -1580,6 +1590,8 @@ export enum Orders_Update_Column {
   ClientName = 'client_name',
   /** column name */
   ClientPhone = 'client_phone',
+  /** column name */
+  CreatedAt = 'created_at',
   /** column name */
   Id = 'id',
   /** column name */
@@ -2122,6 +2134,19 @@ export type Subscription_RootSettings_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+/** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
+export type Timestamptz_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['timestamptz']>;
+  _gt?: InputMaybe<Scalars['timestamptz']>;
+  _gte?: InputMaybe<Scalars['timestamptz']>;
+  _in?: InputMaybe<Array<Scalars['timestamptz']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['timestamptz']>;
+  _lte?: InputMaybe<Scalars['timestamptz']>;
+  _neq?: InputMaybe<Scalars['timestamptz']>;
+  _nin?: InputMaybe<Array<Scalars['timestamptz']>>;
+};
+
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['uuid']>;
@@ -2174,6 +2199,7 @@ export type CreateFakeOrderMutationVariables = Exact<{
   client_address: Scalars['String'];
   client_name: Scalars['String'];
   client_phone: Scalars['String'];
+  created_at?: InputMaybe<Scalars['timestamptz']>;
 }>;
 
 
@@ -2228,9 +2254,9 @@ export const GetMenuItemsGroupedByCategoryIdDocument = gql`
 }
     `;
 export const CreateFakeOrderDocument = gql`
-    mutation CreateFakeOrder($client_address: String!, $client_name: String!, $client_phone: String!) {
+    mutation CreateFakeOrder($client_address: String!, $client_name: String!, $client_phone: String!, $created_at: timestamptz) {
   insert_orders_one(
-    object: {client_address: $client_address, client_name: $client_name, client_phone: $client_phone, status: DELIVERED}
+    object: {client_address: $client_address, client_name: $client_name, client_phone: $client_phone, status: DELIVERED, created_at: $created_at}
   ) {
     id
   }
