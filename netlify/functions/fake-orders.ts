@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { Handler } from '@netlify/functions';
+import { DateTime } from 'luxon';
 import { api } from '../common/api';
 import { CreateFakeOrderMutationVariables } from '../common/sdk';
 import { verifyHasura } from '../common/verifyHasura';
@@ -16,6 +17,16 @@ const handler: Handler = async (event, context) => {
     verifyHasura(headers);
   } catch (error) {
     return JSON.parse(error.message);
+  }
+
+  const currentHour = DateTime.now().setZone('Europe/Kiev').hour;
+  const isWorkingHours = currentHour >= 10 && currentHour <= 22;
+
+  if (!isWorkingHours) {
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ status: 'not working hours' }),
+    };
   }
 
   const categories = await api.GetCategories();
