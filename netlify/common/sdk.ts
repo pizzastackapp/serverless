@@ -13,6 +13,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  bigint: any;
+  date: any;
   numeric: any;
   timestamptz: any;
   uuid: any;
@@ -51,6 +53,25 @@ export type CloudinarySignatureOutput = {
   publicId: Scalars['String'];
   signature: Scalars['String'];
   timestamp: Scalars['Int'];
+};
+
+export type CustomerLoginInput = {
+  phoneNumber: Scalars['String'];
+};
+
+export type CustomerLoginOutput = {
+  __typename?: 'CustomerLoginOutput';
+  status: Scalars['String'];
+};
+
+export type CustomerVerifyCodeInput = {
+  code: Scalars['String'];
+  phoneNumber: Scalars['String'];
+};
+
+export type CustomerVerifyCodeOutput = {
+  __typename?: 'CustomerVerifyCodeOutput';
+  accessToken: Scalars['String'];
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -212,6 +233,19 @@ export enum Admin_Update_Column {
   Username = 'username'
 }
 
+/** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
+export type Bigint_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['bigint']>;
+  _gt?: InputMaybe<Scalars['bigint']>;
+  _gte?: InputMaybe<Scalars['bigint']>;
+  _in?: InputMaybe<Array<Scalars['bigint']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['bigint']>;
+  _lte?: InputMaybe<Scalars['bigint']>;
+  _neq?: InputMaybe<Scalars['bigint']>;
+  _nin?: InputMaybe<Array<Scalars['bigint']>>;
+};
+
 /** columns and relationships of "categories" */
 export type Categories = {
   __typename?: 'categories';
@@ -369,6 +403,291 @@ export enum Categories_Update_Column {
   /** column name */
   Title = 'title'
 }
+
+/** columns and relationships of "customers" */
+export type Customers = {
+  __typename?: 'customers';
+  address: Scalars['String'];
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+  phone: Scalars['String'];
+};
+
+/** aggregated selection of "customers" */
+export type Customers_Aggregate = {
+  __typename?: 'customers_aggregate';
+  aggregate?: Maybe<Customers_Aggregate_Fields>;
+  nodes: Array<Customers>;
+};
+
+/** aggregate fields of "customers" */
+export type Customers_Aggregate_Fields = {
+  __typename?: 'customers_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Customers_Max_Fields>;
+  min?: Maybe<Customers_Min_Fields>;
+};
+
+
+/** aggregate fields of "customers" */
+export type Customers_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Customers_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "customers". All fields are combined with a logical 'AND'. */
+export type Customers_Bool_Exp = {
+  _and?: InputMaybe<Array<Customers_Bool_Exp>>;
+  _not?: InputMaybe<Customers_Bool_Exp>;
+  _or?: InputMaybe<Array<Customers_Bool_Exp>>;
+  address?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  phone?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "customers" */
+export enum Customers_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  CustomersPkey = 'customers_pkey'
+}
+
+/** input type for inserting data into table "customers" */
+export type Customers_Insert_Input = {
+  address?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Customers_Max_Fields = {
+  __typename?: 'customers_max_fields';
+  address?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Customers_Min_Fields = {
+  __typename?: 'customers_min_fields';
+  address?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "customers" */
+export type Customers_Mutation_Response = {
+  __typename?: 'customers_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Customers>;
+};
+
+/** on_conflict condition type for table "customers" */
+export type Customers_On_Conflict = {
+  constraint: Customers_Constraint;
+  update_columns?: Array<Customers_Update_Column>;
+  where?: InputMaybe<Customers_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "customers". */
+export type Customers_Order_By = {
+  address?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  phone?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: customers */
+export type Customers_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "customers" */
+export enum Customers_Select_Column {
+  /** column name */
+  Address = 'address',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Phone = 'phone'
+}
+
+/** input type for updating data in table "customers" */
+export type Customers_Set_Input = {
+  address?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "customers" */
+export enum Customers_Update_Column {
+  /** column name */
+  Address = 'address',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Phone = 'phone'
+}
+
+/** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
+export type Date_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['date']>;
+  _gt?: InputMaybe<Scalars['date']>;
+  _gte?: InputMaybe<Scalars['date']>;
+  _in?: InputMaybe<Array<Scalars['date']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['date']>;
+  _lte?: InputMaybe<Scalars['date']>;
+  _neq?: InputMaybe<Scalars['date']>;
+  _nin?: InputMaybe<Array<Scalars['date']>>;
+};
+
+/** columns and relationships of "last_week_orders" */
+export type Last_Week_Orders = {
+  __typename?: 'last_week_orders';
+  count?: Maybe<Scalars['bigint']>;
+  date?: Maybe<Scalars['date']>;
+  sum?: Maybe<Scalars['numeric']>;
+};
+
+/** aggregated selection of "last_week_orders" */
+export type Last_Week_Orders_Aggregate = {
+  __typename?: 'last_week_orders_aggregate';
+  aggregate?: Maybe<Last_Week_Orders_Aggregate_Fields>;
+  nodes: Array<Last_Week_Orders>;
+};
+
+/** aggregate fields of "last_week_orders" */
+export type Last_Week_Orders_Aggregate_Fields = {
+  __typename?: 'last_week_orders_aggregate_fields';
+  avg?: Maybe<Last_Week_Orders_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Last_Week_Orders_Max_Fields>;
+  min?: Maybe<Last_Week_Orders_Min_Fields>;
+  stddev?: Maybe<Last_Week_Orders_Stddev_Fields>;
+  stddev_pop?: Maybe<Last_Week_Orders_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Last_Week_Orders_Stddev_Samp_Fields>;
+  sum?: Maybe<Last_Week_Orders_Sum_Fields>;
+  var_pop?: Maybe<Last_Week_Orders_Var_Pop_Fields>;
+  var_samp?: Maybe<Last_Week_Orders_Var_Samp_Fields>;
+  variance?: Maybe<Last_Week_Orders_Variance_Fields>;
+};
+
+
+/** aggregate fields of "last_week_orders" */
+export type Last_Week_Orders_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Last_Week_Orders_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Last_Week_Orders_Avg_Fields = {
+  __typename?: 'last_week_orders_avg_fields';
+  count?: Maybe<Scalars['Float']>;
+  sum?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "last_week_orders". All fields are combined with a logical 'AND'. */
+export type Last_Week_Orders_Bool_Exp = {
+  _and?: InputMaybe<Array<Last_Week_Orders_Bool_Exp>>;
+  _not?: InputMaybe<Last_Week_Orders_Bool_Exp>;
+  _or?: InputMaybe<Array<Last_Week_Orders_Bool_Exp>>;
+  count?: InputMaybe<Bigint_Comparison_Exp>;
+  date?: InputMaybe<Date_Comparison_Exp>;
+  sum?: InputMaybe<Numeric_Comparison_Exp>;
+};
+
+/** aggregate max on columns */
+export type Last_Week_Orders_Max_Fields = {
+  __typename?: 'last_week_orders_max_fields';
+  count?: Maybe<Scalars['bigint']>;
+  date?: Maybe<Scalars['date']>;
+  sum?: Maybe<Scalars['numeric']>;
+};
+
+/** aggregate min on columns */
+export type Last_Week_Orders_Min_Fields = {
+  __typename?: 'last_week_orders_min_fields';
+  count?: Maybe<Scalars['bigint']>;
+  date?: Maybe<Scalars['date']>;
+  sum?: Maybe<Scalars['numeric']>;
+};
+
+/** Ordering options when selecting data from "last_week_orders". */
+export type Last_Week_Orders_Order_By = {
+  count?: InputMaybe<Order_By>;
+  date?: InputMaybe<Order_By>;
+  sum?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "last_week_orders" */
+export enum Last_Week_Orders_Select_Column {
+  /** column name */
+  Count = 'count',
+  /** column name */
+  Date = 'date',
+  /** column name */
+  Sum = 'sum'
+}
+
+/** aggregate stddev on columns */
+export type Last_Week_Orders_Stddev_Fields = {
+  __typename?: 'last_week_orders_stddev_fields';
+  count?: Maybe<Scalars['Float']>;
+  sum?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Last_Week_Orders_Stddev_Pop_Fields = {
+  __typename?: 'last_week_orders_stddev_pop_fields';
+  count?: Maybe<Scalars['Float']>;
+  sum?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Last_Week_Orders_Stddev_Samp_Fields = {
+  __typename?: 'last_week_orders_stddev_samp_fields';
+  count?: Maybe<Scalars['Float']>;
+  sum?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate sum on columns */
+export type Last_Week_Orders_Sum_Fields = {
+  __typename?: 'last_week_orders_sum_fields';
+  count?: Maybe<Scalars['bigint']>;
+  sum?: Maybe<Scalars['numeric']>;
+};
+
+/** aggregate var_pop on columns */
+export type Last_Week_Orders_Var_Pop_Fields = {
+  __typename?: 'last_week_orders_var_pop_fields';
+  count?: Maybe<Scalars['Float']>;
+  sum?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Last_Week_Orders_Var_Samp_Fields = {
+  __typename?: 'last_week_orders_var_samp_fields';
+  count?: Maybe<Scalars['Float']>;
+  sum?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Last_Week_Orders_Variance_Fields = {
+  __typename?: 'last_week_orders_variance_fields';
+  count?: Maybe<Scalars['Float']>;
+  sum?: Maybe<Scalars['Float']>;
+};
 
 /** columns and relationships of "menu" */
 export type Menu = {
@@ -725,6 +1044,10 @@ export type Mutation_Root = {
   delete_categories?: Maybe<Categories_Mutation_Response>;
   /** delete single row from the table: "categories" */
   delete_categories_by_pk?: Maybe<Categories>;
+  /** delete data from the table: "customers" */
+  delete_customers?: Maybe<Customers_Mutation_Response>;
+  /** delete single row from the table: "customers" */
+  delete_customers_by_pk?: Maybe<Customers>;
   /** delete data from the table: "menu" */
   delete_menu?: Maybe<Menu_Mutation_Response>;
   /** delete single row from the table: "menu" */
@@ -753,6 +1076,10 @@ export type Mutation_Root = {
   insert_categories?: Maybe<Categories_Mutation_Response>;
   /** insert a single row into the table: "categories" */
   insert_categories_one?: Maybe<Categories>;
+  /** insert data into the table: "customers" */
+  insert_customers?: Maybe<Customers_Mutation_Response>;
+  /** insert a single row into the table: "customers" */
+  insert_customers_one?: Maybe<Customers>;
   /** insert data into the table: "menu" */
   insert_menu?: Maybe<Menu_Mutation_Response>;
   /** insert a single row into the table: "menu" */
@@ -781,6 +1108,10 @@ export type Mutation_Root = {
   update_categories?: Maybe<Categories_Mutation_Response>;
   /** update single row of the table: "categories" */
   update_categories_by_pk?: Maybe<Categories>;
+  /** update data of the table: "customers" */
+  update_customers?: Maybe<Customers_Mutation_Response>;
+  /** update single row of the table: "customers" */
+  update_customers_by_pk?: Maybe<Customers>;
   /** update data of the table: "menu" */
   update_menu?: Maybe<Menu_Mutation_Response>;
   /** update single row of the table: "menu" */
@@ -830,6 +1161,18 @@ export type Mutation_RootDelete_CategoriesArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Categories_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_CustomersArgs = {
+  where: Customers_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Customers_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -919,6 +1262,20 @@ export type Mutation_RootInsert_CategoriesArgs = {
 export type Mutation_RootInsert_Categories_OneArgs = {
   object: Categories_Insert_Input;
   on_conflict?: InputMaybe<Categories_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_CustomersArgs = {
+  objects: Array<Customers_Insert_Input>;
+  on_conflict?: InputMaybe<Customers_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Customers_OneArgs = {
+  object: Customers_Insert_Input;
+  on_conflict?: InputMaybe<Customers_On_Conflict>;
 };
 
 
@@ -1017,6 +1374,20 @@ export type Mutation_RootUpdate_CategoriesArgs = {
 export type Mutation_RootUpdate_Categories_By_PkArgs = {
   _set?: InputMaybe<Categories_Set_Input>;
   pk_columns: Categories_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_CustomersArgs = {
+  _set?: InputMaybe<Customers_Set_Input>;
+  where: Customers_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Customers_By_PkArgs = {
+  _set?: InputMaybe<Customers_Set_Input>;
+  pk_columns: Customers_Pk_Columns_Input;
 };
 
 
@@ -1261,7 +1632,7 @@ export type Orders = {
   client_address: Scalars['String'];
   client_name: Scalars['String'];
   client_phone: Scalars['String'];
-  created_at?: Maybe<Scalars['timestamptz']>;
+  created_at: Scalars['timestamptz'];
   id: Scalars['uuid'];
   /** An array relationship */
   order_items: Array<Orders_Menu>;
@@ -1616,6 +1987,20 @@ export type Query_Root = {
   /** fetch data from the table: "categories" using primary key columns */
   categories_by_pk?: Maybe<Categories>;
   cloudinarySignature?: Maybe<CloudinarySignatureOutput>;
+  /** Customer login */
+  customerLogin?: Maybe<CustomerLoginOutput>;
+  /** Customer verify code */
+  customerVerifyCode?: Maybe<CustomerVerifyCodeOutput>;
+  /** fetch data from the table: "customers" */
+  customers: Array<Customers>;
+  /** fetch aggregated fields from the table: "customers" */
+  customers_aggregate: Customers_Aggregate;
+  /** fetch data from the table: "customers" using primary key columns */
+  customers_by_pk?: Maybe<Customers>;
+  /** fetch data from the table: "last_week_orders" */
+  last_week_orders: Array<Last_Week_Orders>;
+  /** fetch aggregated fields from the table: "last_week_orders" */
+  last_week_orders_aggregate: Last_Week_Orders_Aggregate;
   /** fetch data from the table: "menu" */
   menu: Array<Menu>;
   /** fetch aggregated fields from the table: "menu" */
@@ -1697,6 +2082,57 @@ export type Query_RootCategories_AggregateArgs = {
 
 export type Query_RootCategories_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Query_RootCustomerLoginArgs = {
+  input: CustomerLoginInput;
+};
+
+
+export type Query_RootCustomerVerifyCodeArgs = {
+  input: CustomerVerifyCodeInput;
+};
+
+
+export type Query_RootCustomersArgs = {
+  distinct_on?: InputMaybe<Array<Customers_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Customers_Order_By>>;
+  where?: InputMaybe<Customers_Bool_Exp>;
+};
+
+
+export type Query_RootCustomers_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Customers_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Customers_Order_By>>;
+  where?: InputMaybe<Customers_Bool_Exp>;
+};
+
+
+export type Query_RootCustomers_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootLast_Week_OrdersArgs = {
+  distinct_on?: InputMaybe<Array<Last_Week_Orders_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Last_Week_Orders_Order_By>>;
+  where?: InputMaybe<Last_Week_Orders_Bool_Exp>;
+};
+
+
+export type Query_RootLast_Week_Orders_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Last_Week_Orders_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Last_Week_Orders_Order_By>>;
+  where?: InputMaybe<Last_Week_Orders_Bool_Exp>;
 };
 
 
@@ -1941,6 +2377,16 @@ export type Subscription_Root = {
   categories_aggregate: Categories_Aggregate;
   /** fetch data from the table: "categories" using primary key columns */
   categories_by_pk?: Maybe<Categories>;
+  /** fetch data from the table: "customers" */
+  customers: Array<Customers>;
+  /** fetch aggregated fields from the table: "customers" */
+  customers_aggregate: Customers_Aggregate;
+  /** fetch data from the table: "customers" using primary key columns */
+  customers_by_pk?: Maybe<Customers>;
+  /** fetch data from the table: "last_week_orders" */
+  last_week_orders: Array<Last_Week_Orders>;
+  /** fetch aggregated fields from the table: "last_week_orders" */
+  last_week_orders_aggregate: Last_Week_Orders_Aggregate;
   /** fetch data from the table: "menu" */
   menu: Array<Menu>;
   /** fetch aggregated fields from the table: "menu" */
@@ -2017,6 +2463,47 @@ export type Subscription_RootCategories_AggregateArgs = {
 
 export type Subscription_RootCategories_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootCustomersArgs = {
+  distinct_on?: InputMaybe<Array<Customers_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Customers_Order_By>>;
+  where?: InputMaybe<Customers_Bool_Exp>;
+};
+
+
+export type Subscription_RootCustomers_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Customers_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Customers_Order_By>>;
+  where?: InputMaybe<Customers_Bool_Exp>;
+};
+
+
+export type Subscription_RootCustomers_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootLast_Week_OrdersArgs = {
+  distinct_on?: InputMaybe<Array<Last_Week_Orders_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Last_Week_Orders_Order_By>>;
+  where?: InputMaybe<Last_Week_Orders_Bool_Exp>;
+};
+
+
+export type Subscription_RootLast_Week_Orders_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Last_Week_Orders_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Last_Week_Orders_Order_By>>;
+  where?: InputMaybe<Last_Week_Orders_Bool_Exp>;
 };
 
 

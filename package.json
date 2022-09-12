@@ -24,6 +24,7 @@
     "graphql": "^16.5.0",
     "graphql-request": "^4.3.0",
     "jsonwebtoken": "^8.5.1",
-    "luxon": "^3.0.3"
+    "luxon": "^3.0.3",
+    "twilio": "^3.82.0"
   }
 }
