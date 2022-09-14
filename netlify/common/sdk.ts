@@ -407,10 +407,11 @@ export enum Categories_Update_Column {
 /** columns and relationships of "customers" */
 export type Customers = {
   __typename?: 'customers';
-  address: Scalars['String'];
+  address?: Maybe<Scalars['String']>;
   id: Scalars['uuid'];
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   phone: Scalars['String'];
+  twilioVerificationSid?: Maybe<Scalars['String']>;
 };
 
 /** aggregated selection of "customers" */
@@ -444,10 +445,13 @@ export type Customers_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   phone?: InputMaybe<String_Comparison_Exp>;
+  twilioVerificationSid?: InputMaybe<String_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "customers" */
 export enum Customers_Constraint {
+  /** unique or primary key constraint on columns "phone" */
+  CustomersPhoneKey = 'customers_phone_key',
   /** unique or primary key constraint on columns "id" */
   CustomersPkey = 'customers_pkey'
 }
@@ -458,6 +462,7 @@ export type Customers_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
   phone?: InputMaybe<Scalars['String']>;
+  twilioVerificationSid?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
@@ -467,6 +472,7 @@ export type Customers_Max_Fields = {
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
+  twilioVerificationSid?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
@@ -476,6 +482,7 @@ export type Customers_Min_Fields = {
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
+  twilioVerificationSid?: Maybe<Scalars['String']>;
 };
 
 /** response of any mutation on the table "customers" */
@@ -500,6 +507,7 @@ export type Customers_Order_By = {
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   phone?: InputMaybe<Order_By>;
+  twilioVerificationSid?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: customers */
@@ -516,7 +524,9 @@ export enum Customers_Select_Column {
   /** column name */
   Name = 'name',
   /** column name */
-  Phone = 'phone'
+  Phone = 'phone',
+  /** column name */
+  TwilioVerificationSid = 'twilioVerificationSid'
 }
 
 /** input type for updating data in table "customers" */
@@ -525,6 +535,7 @@ export type Customers_Set_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
   phone?: InputMaybe<Scalars['String']>;
+  twilioVerificationSid?: InputMaybe<Scalars['String']>;
 };
 
 /** update columns of table "customers" */
@@ -536,7 +547,9 @@ export enum Customers_Update_Column {
   /** column name */
   Name = 'name',
   /** column name */
-  Phone = 'phone'
+  Phone = 'phone',
+  /** column name */
+  TwilioVerificationSid = 'twilioVerificationSid'
 }
 
 /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
@@ -2674,6 +2687,21 @@ export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetCategoriesQuery = { __typename?: 'query_root', categories: Array<{ __typename?: 'categories', id: any }> };
 
+export type GetCustomerByPhoneQueryVariables = Exact<{
+  phoneNumber: Scalars['String'];
+}>;
+
+
+export type GetCustomerByPhoneQuery = { __typename?: 'query_root', customers: Array<{ __typename?: 'customers', id: any, twilioVerificationSid?: string | null }> };
+
+export type CreateNewUserMutationVariables = Exact<{
+  phone: Scalars['String'];
+  twilioVerificationSid: Scalars['String'];
+}>;
+
+
+export type CreateNewUserMutation = { __typename?: 'mutation_root', insert_customers_one?: { __typename?: 'customers', id: any } | null };
+
 export type GetMenuItemsGroupedByCategoryIdQueryVariables = Exact<{
   firstCategory: Scalars['uuid'];
   secondCategory: Scalars['uuid'];
@@ -2730,6 +2758,24 @@ export const GetCategoriesDocument = gql`
   }
 }
     `;
+export const GetCustomerByPhoneDocument = gql`
+    query GetCustomerByPhone($phoneNumber: String!) {
+  customers(where: {phone: {_eq: $phoneNumber}}) {
+    id
+    twilioVerificationSid
+  }
+}
+    `;
+export const CreateNewUserDocument = gql`
+    mutation CreateNewUser($phone: String!, $twilioVerificationSid: String!) {
+  insert_customers_one(
+    object: {phone: $phone, twilioVerificationSid: $twilioVerificationSid}
+    on_conflict: {constraint: customers_phone_key, update_columns: twilioVerificationSid}
+  ) {
+    id
+  }
+}
+    `;
 export const GetMenuItemsGroupedByCategoryIdDocument = gql`
     query GetMenuItemsGroupedByCategoryId($firstCategory: uuid!, $secondCategory: uuid!) {
   firstGroup: menu(where: {category_id: {_eq: $firstCategory}}) {
@@ -2775,6 +2821,12 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     GetCategories(variables?: GetCategoriesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCategoriesQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetCategoriesQuery>(GetCategoriesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetCategories', 'query');
+    },
+    GetCustomerByPhone(variables: GetCustomerByPhoneQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCustomerByPhoneQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetCustomerByPhoneQuery>(GetCustomerByPhoneDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetCustomerByPhone', 'query');
+    },
+    CreateNewUser(variables: CreateNewUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateNewUserMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateNewUserMutation>(CreateNewUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateNewUser', 'mutation');
     },
     GetMenuItemsGroupedByCategoryId(variables: GetMenuItemsGroupedByCategoryIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetMenuItemsGroupedByCategoryIdQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetMenuItemsGroupedByCategoryIdQuery>(GetMenuItemsGroupedByCategoryIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetMenuItemsGroupedByCategoryId', 'query');

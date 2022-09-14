@@ -1,5 +1,6 @@
 import { Handler } from '@netlify/functions';
 import twilio from 'twilio';
+import { api } from '../common/api';
 import { validatePhoneNumber } from '../common/phoneNumber';
 import { CustomerLoginInput } from '../common/sdk';
 import { verifyHasura } from '../common/verifyHasura';
@@ -29,7 +30,15 @@ const handler: Handler = async (event, context) => {
     .services(config.twilioServiceSid)
     .verifications.create({ to: phoneNumber, channel: 'sms' });
 
-  // TODO: додати verificationSid
+  await api.CreateNewUser(
+    {
+      phone: phoneNumber,
+      twilioVerificationSid: verification.sid,
+    },
+    {
+      'x-hasura-admin-secret': config.hasuraAdminSecret,
+    }
+  );
 
   return {
     statusCode: 200,

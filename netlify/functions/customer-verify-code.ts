@@ -1,5 +1,7 @@
 import { Handler } from '@netlify/functions';
 import twilio from 'twilio';
+import { api } from '../common/api';
+import { signToken } from '../common/jwt';
 import { validatePhoneNumber } from '../common/phoneNumber';
 import { CustomerVerifyCodeInput } from '../common/sdk';
 import { verifyHasura } from '../common/verifyHasura';
@@ -25,14 +27,27 @@ const handler: Handler = async (event, context) => {
     return JSON.parse(error.message);
   }
 
-  const verification = await twilioClient.verify.v2
+  const customer = await api.GetCustomerByPhone(
+    { phoneNumber },
+    {
+      'x-hasura-admin-secret': config.hasuraAdminSecret,
+    }
+  );
+
+  await twilioClient.verify.v2
     .services(config.twilioServiceSid)
-    .verificationChecks.create({ to: phoneNumber, code: input.code });
+    .verificationChecks.create({
+      to: phoneNumber,
+      code: input.code,
+      verificationSid: customer.customers[0].twilioVerificationSid,
+    });
+
+  const accessToken = signToken(customer.customers[0].id, 'user');
 
   return {
     statusCode: 200,
     body: JSON.stringify({
-      accessToken: '123',
+      accessToken,
     }),
   };
 };
