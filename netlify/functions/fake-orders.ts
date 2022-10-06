@@ -2,7 +2,10 @@ import { faker } from '@faker-js/faker';
 import { Handler } from '@netlify/functions';
 import { DateTime } from 'luxon';
 import { api } from '../common/api';
-import { CreateFakeOrderMutationVariables } from '../common/sdk';
+import {
+  CreateFakeOrderMutationVariables,
+  Payment_Types_Enum,
+} from '../common/sdk';
 import { verifyHasura } from '../common/verifyHasura';
 import { config } from '../core/config';
 
@@ -12,10 +15,12 @@ const handler: Handler = async (event, context) => {
     amount: amountRaw = '1',
     recent: recentRaw = '0',
     forceCreate: forceCreateRaw = 'false',
+    phone: phoneRaw = null,
   } = queryStringParameters;
   const amount = Number(amountRaw);
   const recent = Number(recentRaw);
   const forceCreate = forceCreateRaw === 'true';
+  const phone = phoneRaw ? decodeURIComponent(phoneRaw) : null;
 
   try {
     verifyHasura(headers);
@@ -47,8 +52,12 @@ const handler: Handler = async (event, context) => {
     const fakeData: CreateFakeOrderMutationVariables = {
       client_address: faker.address.streetAddress(true),
       client_name: faker.name.fullName(),
-      client_phone: faker.phone.number('+380#########'),
+      client_phone: phone ?? faker.phone.number('+380#########'),
       created_at: new Date(),
+      comment: faker.datatype.boolean() ? faker.lorem.lines() : null,
+      payment_type: faker.datatype.boolean()
+        ? Payment_Types_Enum.Card
+        : Payment_Types_Enum.Cash,
     };
 
     if (recent !== 0) {
