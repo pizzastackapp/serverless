@@ -55,6 +55,20 @@ export type CloudinarySignatureOutput = {
   timestamp: Scalars['Int'];
 };
 
+export type CreateOrderInput = {
+  client_address: Scalars['String'];
+  client_name: Scalars['String'];
+  client_phone: Scalars['String'];
+  comment?: InputMaybe<Scalars['String']>;
+  items: Scalars['String'];
+  payment_type?: InputMaybe<Scalars['String']>;
+};
+
+export type CreateOrderOutput = {
+  __typename?: 'CreateOrderOutput';
+  id: Scalars['String'];
+};
+
 export type CustomerLoginInput = {
   phoneNumber: Scalars['String'];
 };
@@ -1083,6 +1097,7 @@ export type Mutation_Root = {
   __typename?: 'mutation_root';
   /** Admin registration */
   adminRegister?: Maybe<AdminRegisterOutput>;
+  createOrder?: Maybe<CreateOrderOutput>;
   /** delete data from the table: "admin" */
   delete_admin?: Maybe<Admin_Mutation_Response>;
   /** delete single row from the table: "admin" */
@@ -1197,6 +1212,12 @@ export type Mutation_Root = {
 /** mutation root */
 export type Mutation_RootAdminRegisterArgs = {
   admin: AdminRegisterInput;
+};
+
+
+/** mutation root */
+export type Mutation_RootCreateOrderArgs = {
+  order: CreateOrderInput;
 };
 
 
@@ -1522,6 +1543,7 @@ export type Mutation_RootUpdate_Orders_By_PkArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Orders_MenuArgs = {
+  _inc?: InputMaybe<Orders_Menu_Inc_Input>;
   _set?: InputMaybe<Orders_Menu_Set_Input>;
   where: Orders_Menu_Bool_Exp;
 };
@@ -1529,6 +1551,7 @@ export type Mutation_RootUpdate_Orders_MenuArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Orders_Menu_By_PkArgs = {
+  _inc?: InputMaybe<Orders_Menu_Inc_Input>;
   _set?: InputMaybe<Orders_Menu_Set_Input>;
   pk_columns: Orders_Menu_Pk_Columns_Input;
 };
@@ -1864,6 +1887,7 @@ export type Orders_Max_Order_By = {
 /** columns and relationships of "orders_menu" */
 export type Orders_Menu = {
   __typename?: 'orders_menu';
+  amount: Scalars['numeric'];
   id: Scalars['uuid'];
   /** An object relationship */
   item?: Maybe<Menu>;
@@ -1881,9 +1905,17 @@ export type Orders_Menu_Aggregate = {
 /** aggregate fields of "orders_menu" */
 export type Orders_Menu_Aggregate_Fields = {
   __typename?: 'orders_menu_aggregate_fields';
+  avg?: Maybe<Orders_Menu_Avg_Fields>;
   count: Scalars['Int'];
   max?: Maybe<Orders_Menu_Max_Fields>;
   min?: Maybe<Orders_Menu_Min_Fields>;
+  stddev?: Maybe<Orders_Menu_Stddev_Fields>;
+  stddev_pop?: Maybe<Orders_Menu_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Orders_Menu_Stddev_Samp_Fields>;
+  sum?: Maybe<Orders_Menu_Sum_Fields>;
+  var_pop?: Maybe<Orders_Menu_Var_Pop_Fields>;
+  var_samp?: Maybe<Orders_Menu_Var_Samp_Fields>;
+  variance?: Maybe<Orders_Menu_Variance_Fields>;
 };
 
 
@@ -1895,9 +1927,17 @@ export type Orders_Menu_Aggregate_FieldsCountArgs = {
 
 /** order by aggregate values of table "orders_menu" */
 export type Orders_Menu_Aggregate_Order_By = {
+  avg?: InputMaybe<Orders_Menu_Avg_Order_By>;
   count?: InputMaybe<Order_By>;
   max?: InputMaybe<Orders_Menu_Max_Order_By>;
   min?: InputMaybe<Orders_Menu_Min_Order_By>;
+  stddev?: InputMaybe<Orders_Menu_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Orders_Menu_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Orders_Menu_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Orders_Menu_Sum_Order_By>;
+  var_pop?: InputMaybe<Orders_Menu_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Orders_Menu_Var_Samp_Order_By>;
+  variance?: InputMaybe<Orders_Menu_Variance_Order_By>;
 };
 
 /** input type for inserting array relation for remote table "orders_menu" */
@@ -1907,11 +1947,23 @@ export type Orders_Menu_Arr_Rel_Insert_Input = {
   on_conflict?: InputMaybe<Orders_Menu_On_Conflict>;
 };
 
+/** aggregate avg on columns */
+export type Orders_Menu_Avg_Fields = {
+  __typename?: 'orders_menu_avg_fields';
+  amount?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "orders_menu" */
+export type Orders_Menu_Avg_Order_By = {
+  amount?: InputMaybe<Order_By>;
+};
+
 /** Boolean expression to filter rows from the table "orders_menu". All fields are combined with a logical 'AND'. */
 export type Orders_Menu_Bool_Exp = {
   _and?: InputMaybe<Array<Orders_Menu_Bool_Exp>>;
   _not?: InputMaybe<Orders_Menu_Bool_Exp>;
   _or?: InputMaybe<Array<Orders_Menu_Bool_Exp>>;
+  amount?: InputMaybe<Numeric_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   item?: InputMaybe<Menu_Bool_Exp>;
   menu_id?: InputMaybe<Uuid_Comparison_Exp>;
@@ -1924,8 +1976,14 @@ export enum Orders_Menu_Constraint {
   OrdersMenuPkey = 'orders_menu_pkey'
 }
 
+/** input type for incrementing numeric columns in table "orders_menu" */
+export type Orders_Menu_Inc_Input = {
+  amount?: InputMaybe<Scalars['numeric']>;
+};
+
 /** input type for inserting data into table "orders_menu" */
 export type Orders_Menu_Insert_Input = {
+  amount?: InputMaybe<Scalars['numeric']>;
   id?: InputMaybe<Scalars['uuid']>;
   item?: InputMaybe<Menu_Obj_Rel_Insert_Input>;
   menu_id?: InputMaybe<Scalars['uuid']>;
@@ -1935,6 +1993,7 @@ export type Orders_Menu_Insert_Input = {
 /** aggregate max on columns */
 export type Orders_Menu_Max_Fields = {
   __typename?: 'orders_menu_max_fields';
+  amount?: Maybe<Scalars['numeric']>;
   id?: Maybe<Scalars['uuid']>;
   menu_id?: Maybe<Scalars['uuid']>;
   order_id?: Maybe<Scalars['uuid']>;
@@ -1942,6 +2001,7 @@ export type Orders_Menu_Max_Fields = {
 
 /** order by max() on columns of table "orders_menu" */
 export type Orders_Menu_Max_Order_By = {
+  amount?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   menu_id?: InputMaybe<Order_By>;
   order_id?: InputMaybe<Order_By>;
@@ -1950,6 +2010,7 @@ export type Orders_Menu_Max_Order_By = {
 /** aggregate min on columns */
 export type Orders_Menu_Min_Fields = {
   __typename?: 'orders_menu_min_fields';
+  amount?: Maybe<Scalars['numeric']>;
   id?: Maybe<Scalars['uuid']>;
   menu_id?: Maybe<Scalars['uuid']>;
   order_id?: Maybe<Scalars['uuid']>;
@@ -1957,6 +2018,7 @@ export type Orders_Menu_Min_Fields = {
 
 /** order by min() on columns of table "orders_menu" */
 export type Orders_Menu_Min_Order_By = {
+  amount?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   menu_id?: InputMaybe<Order_By>;
   order_id?: InputMaybe<Order_By>;
@@ -1980,6 +2042,7 @@ export type Orders_Menu_On_Conflict = {
 
 /** Ordering options when selecting data from "orders_menu". */
 export type Orders_Menu_Order_By = {
+  amount?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   item?: InputMaybe<Menu_Order_By>;
   menu_id?: InputMaybe<Order_By>;
@@ -1994,6 +2057,8 @@ export type Orders_Menu_Pk_Columns_Input = {
 /** select columns of table "orders_menu" */
 export enum Orders_Menu_Select_Column {
   /** column name */
+  Amount = 'amount',
+  /** column name */
   Id = 'id',
   /** column name */
   MenuId = 'menu_id',
@@ -2003,13 +2068,60 @@ export enum Orders_Menu_Select_Column {
 
 /** input type for updating data in table "orders_menu" */
 export type Orders_Menu_Set_Input = {
+  amount?: InputMaybe<Scalars['numeric']>;
   id?: InputMaybe<Scalars['uuid']>;
   menu_id?: InputMaybe<Scalars['uuid']>;
   order_id?: InputMaybe<Scalars['uuid']>;
 };
 
+/** aggregate stddev on columns */
+export type Orders_Menu_Stddev_Fields = {
+  __typename?: 'orders_menu_stddev_fields';
+  amount?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "orders_menu" */
+export type Orders_Menu_Stddev_Order_By = {
+  amount?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Orders_Menu_Stddev_Pop_Fields = {
+  __typename?: 'orders_menu_stddev_pop_fields';
+  amount?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "orders_menu" */
+export type Orders_Menu_Stddev_Pop_Order_By = {
+  amount?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Orders_Menu_Stddev_Samp_Fields = {
+  __typename?: 'orders_menu_stddev_samp_fields';
+  amount?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "orders_menu" */
+export type Orders_Menu_Stddev_Samp_Order_By = {
+  amount?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Orders_Menu_Sum_Fields = {
+  __typename?: 'orders_menu_sum_fields';
+  amount?: Maybe<Scalars['numeric']>;
+};
+
+/** order by sum() on columns of table "orders_menu" */
+export type Orders_Menu_Sum_Order_By = {
+  amount?: InputMaybe<Order_By>;
+};
+
 /** update columns of table "orders_menu" */
 export enum Orders_Menu_Update_Column {
+  /** column name */
+  Amount = 'amount',
   /** column name */
   Id = 'id',
   /** column name */
@@ -2017,6 +2129,39 @@ export enum Orders_Menu_Update_Column {
   /** column name */
   OrderId = 'order_id'
 }
+
+/** aggregate var_pop on columns */
+export type Orders_Menu_Var_Pop_Fields = {
+  __typename?: 'orders_menu_var_pop_fields';
+  amount?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "orders_menu" */
+export type Orders_Menu_Var_Pop_Order_By = {
+  amount?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Orders_Menu_Var_Samp_Fields = {
+  __typename?: 'orders_menu_var_samp_fields';
+  amount?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "orders_menu" */
+export type Orders_Menu_Var_Samp_Order_By = {
+  amount?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Orders_Menu_Variance_Fields = {
+  __typename?: 'orders_menu_variance_fields';
+  amount?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "orders_menu" */
+export type Orders_Menu_Variance_Order_By = {
+  amount?: InputMaybe<Order_By>;
+};
 
 /** aggregate min on columns */
 export type Orders_Min_Fields = {
@@ -3063,12 +3208,23 @@ export type CreateFakeOrderMutationVariables = Exact<{
 
 export type CreateFakeOrderMutation = { __typename?: 'mutation_root', insert_orders_one?: { __typename?: 'orders', id: any } | null };
 
-export type AddItemsToFakeOrderMutationVariables = Exact<{
+export type CreateOrderMutationVariables = Exact<{
+  client_address: Scalars['String'];
+  client_name: Scalars['String'];
+  client_phone: Scalars['String'];
+  comment?: InputMaybe<Scalars['String']>;
+  payment_type?: InputMaybe<Payment_Types_Enum>;
+}>;
+
+
+export type CreateOrderMutation = { __typename?: 'mutation_root', insert_orders_one?: { __typename?: 'orders', id: any } | null };
+
+export type AddItemsToOrderMutationVariables = Exact<{
   objects: Array<Orders_Menu_Insert_Input> | Orders_Menu_Insert_Input;
 }>;
 
 
-export type AddItemsToFakeOrderMutation = { __typename?: 'mutation_root', insert_orders_menu?: { __typename?: 'orders_menu_mutation_response', affected_rows: number } | null };
+export type AddItemsToOrderMutation = { __typename?: 'mutation_root', insert_orders_menu?: { __typename?: 'orders_menu_mutation_response', affected_rows: number } | null };
 
 
 export const GetAdminByUsernameDocument = gql`
@@ -3148,8 +3304,17 @@ export const CreateFakeOrderDocument = gql`
   }
 }
     `;
-export const AddItemsToFakeOrderDocument = gql`
-    mutation AddItemsToFakeOrder($objects: [orders_menu_insert_input!]!) {
+export const CreateOrderDocument = gql`
+    mutation CreateOrder($client_address: String!, $client_name: String!, $client_phone: String!, $comment: String = "", $payment_type: payment_types_enum = CASH) {
+  insert_orders_one(
+    object: {client_address: $client_address, client_name: $client_name, client_phone: $client_phone, comment: $comment, payment_type: $payment_type, status: NEW}
+  ) {
+    id
+  }
+}
+    `;
+export const AddItemsToOrderDocument = gql`
+    mutation AddItemsToOrder($objects: [orders_menu_insert_input!]!) {
   insert_orders_menu(objects: $objects) {
     affected_rows
   }
@@ -3190,8 +3355,11 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     CreateFakeOrder(variables: CreateFakeOrderMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateFakeOrderMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateFakeOrderMutation>(CreateFakeOrderDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateFakeOrder', 'mutation');
     },
-    AddItemsToFakeOrder(variables: AddItemsToFakeOrderMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<AddItemsToFakeOrderMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<AddItemsToFakeOrderMutation>(AddItemsToFakeOrderDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'AddItemsToFakeOrder', 'mutation');
+    CreateOrder(variables: CreateOrderMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateOrderMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateOrderMutation>(CreateOrderDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateOrder', 'mutation');
+    },
+    AddItemsToOrder(variables: AddItemsToOrderMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<AddItemsToOrderMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<AddItemsToOrderMutation>(AddItemsToOrderDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'AddItemsToOrder', 'mutation');
     }
   };
 }

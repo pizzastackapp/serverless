@@ -20,3 +20,24 @@ mutation CreateFakeOrder(
     id
   }
 }
+
+mutation CreateOrder(
+  $client_address: String!
+  $client_name: String!
+  $client_phone: String!
+  $comment: String = ""
+  $payment_type: payment_types_enum = CASH
+) {
+  insert_orders_one(
+    object: {
+      client_address: $client_address
+      client_name: $client_name
+      client_phone: $client_phone
+      comment: $comment
+      payment_type: $payment_type
+      status: NEW
+    }
+  ) {
+    id
+  }
+}

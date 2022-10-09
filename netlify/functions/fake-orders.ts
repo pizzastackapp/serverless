@@ -76,17 +76,12 @@ const handler: Handler = async (event, context) => {
         faker.datatype.number({ max: secondGroupLength - 1 })
       ].id;
 
-    await api.AddItemsToFakeOrder(
-      {
-        objects: [
-          { order_id: newOrder.insert_orders_one.id, menu_id: firstGroupItem },
-          { order_id: newOrder.insert_orders_one.id, menu_id: secondGroupItem },
-        ],
-      },
-      {
-        'x-hasura-admin-secret': config.hasuraAdminSecret,
-      }
-    );
+    await api.AddItemsToOrder({
+      objects: [
+        { order_id: newOrder.insert_orders_one.id, menu_id: firstGroupItem },
+        { order_id: newOrder.insert_orders_one.id, menu_id: secondGroupItem },
+      ],
+    });
   }
 
   return {
