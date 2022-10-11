@@ -76,10 +76,18 @@ const handler: Handler = async (event, context) => {
         faker.datatype.number({ max: secondGroupLength - 1 })
       ].id;
 
+    const generateOrderItem = (menuId: string) => {
+      return {
+        order_id: newOrder.insert_orders_one.id,
+        menu_id: menuId,
+        amount: faker.datatype.boolean() ? 2 : 1,
+      };
+    };
+
     await api.AddItemsToOrder({
       objects: [
-        { order_id: newOrder.insert_orders_one.id, menu_id: firstGroupItem },
-        { order_id: newOrder.insert_orders_one.id, menu_id: secondGroupItem },
+        generateOrderItem(firstGroupItem),
+        generateOrderItem(secondGroupItem),
       ],
     });
   }
