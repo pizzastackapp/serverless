@@ -1,7 +1,7 @@
 import { Orders } from '../common/sdk';
 
 export enum HasuraEvents {
-  CREATE_USER_AFTER_ORDER_SUBMITED = 'create_user_after_order_submited',
+  ORDER_CREATED = 'order_created',
 }
 
 export interface HasuraEventBody {
@@ -39,7 +39,10 @@ interface Sessionvariables {
 }
 
 interface Data {
-  new: Pick<Orders, 'client_address' | 'client_name' | 'client_phone'>;
+  new: Pick<
+    Orders,
+    'client_address' | 'client_name' | 'client_phone' | 'status' | 'id'
+  >;
   old?: any;
 }
 

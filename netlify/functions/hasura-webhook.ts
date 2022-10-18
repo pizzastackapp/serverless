@@ -3,6 +3,8 @@ import { api } from '../common/api';
 import { verifyHasura } from '../common/verifyHasura';
 import { config } from '../core/config';
 import { HasuraEventBody, HasuraEvents } from '../dto/hasura-event-body.dto';
+import { createNewCustomer } from '../hasura/create-new-customer';
+import { sendNotificationToAdmin } from '../hasura/send-notifcation-to-admin';
 
 const handler: Handler = async (event, context) => {
   const { headers, body: bodyRaw } = event;
@@ -19,23 +21,8 @@ const handler: Handler = async (event, context) => {
     trigger: { name: triggerName },
   } = body;
 
-  if (triggerName === HasuraEvents.CREATE_USER_AFTER_ORDER_SUBMITED) {
-    const {
-      event: {
-        data: { new: order },
-      },
-    } = body;
-
-    await api.CreateNewCustomer(
-      {
-        phone: order.client_phone,
-        name: order.client_name,
-        address: order.client_address,
-      },
-      {
-        'x-hasura-admin-secret': config.hasuraAdminSecret,
-      }
-    );
+  if (triggerName === HasuraEvents.ORDER_CREATED) {
+    await Promise.all([createNewCustomer(body), sendNotificationToAdmin(body)]);
   }
 
   return {
