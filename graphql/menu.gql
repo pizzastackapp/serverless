@@ -9,3 +9,11 @@ query GetMenuItemsGroupedByCategoryId(
     id
   }
 }
+
+query GetMenuItemsById($ids: [uuid!]!) {
+  menu(where: { id: { _in: $ids } }) {
+    id
+    title
+    price
+  }
+}

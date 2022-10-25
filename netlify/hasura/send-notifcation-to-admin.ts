@@ -25,7 +25,7 @@ export const sendNotificationToAdmin = async (body: HasuraEventBody) => {
             en: 'Нове замовлення',
           },
           name: `NEW_ORDER_${order.id}`,
-          url: `${config.frontendUrl}/#/orders/${order.id}/show`,
+          url: `${config.adminFrontendUrl}/#/orders/${order.id}/show`,
         },
         {
           headers: {

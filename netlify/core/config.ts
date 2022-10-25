@@ -14,8 +14,14 @@ export const config = {
   // ONESIGNAL
   onesignalApiKey: process.env.ONESIGNAL_API_KEY,
   onesignalAppId: process.env.ONESIGNAL_APP_ID,
+  // FONDY
+  fondyMerchantId: process.env.FONDY_MERCHANT_ID,
+  fondyMerchantPassword: process.env.FONDY_MERCHANT_PASSWORD,
+  // URL
+  serverlessUrl: process.env.SERVERLESS_URL,
+  adminFrontendUrl: process.env.ADMIN_FRONTEND_URL,
+  clientFrontendUrl: process.env.CLIENT_FRONTEND_URL,
   // MISC
   jwtSecret: process.env.JWT_SECRET,
   passwordSalt: process.env.PASSWORD_SALT,
-  frontendUrl: process.env.FRONTEND_URL,
 };
