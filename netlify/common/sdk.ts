@@ -3649,6 +3649,14 @@ export type DeleteOrderByIdMutationVariables = Exact<{
 
 export type DeleteOrderByIdMutation = { __typename?: 'mutation_root', delete_orders_by_pk?: { __typename?: 'orders', id: any } | null };
 
+export type UpdateOrderPaymentStatusByIdMutationVariables = Exact<{
+  id: Scalars['uuid'];
+  payment_status: Payment_Status_Enum;
+}>;
+
+
+export type UpdateOrderPaymentStatusByIdMutation = { __typename?: 'mutation_root', update_orders_by_pk?: { __typename?: 'orders', id: any } | null };
+
 export type AddItemsToOrderMutationVariables = Exact<{
   objects: Array<Orders_Menu_Insert_Input> | Orders_Menu_Insert_Input;
 }>;
@@ -3773,6 +3781,16 @@ export const DeleteOrderByIdDocument = gql`
   }
 }
     `;
+export const UpdateOrderPaymentStatusByIdDocument = gql`
+    mutation UpdateOrderPaymentStatusById($id: uuid!, $payment_status: payment_status_enum!) {
+  update_orders_by_pk(
+    pk_columns: {id: $id}
+    _set: {payment_status: $payment_status}
+  ) {
+    id
+  }
+}
+    `;
 export const AddItemsToOrderDocument = gql`
     mutation AddItemsToOrder($objects: [orders_menu_insert_input!]!) {
   insert_orders_menu(objects: $objects) {
@@ -3829,6 +3847,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     DeleteOrderById(variables: DeleteOrderByIdMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteOrderByIdMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<DeleteOrderByIdMutation>(DeleteOrderByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'DeleteOrderById', 'mutation');
+    },
+    UpdateOrderPaymentStatusById(variables: UpdateOrderPaymentStatusByIdMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateOrderPaymentStatusByIdMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateOrderPaymentStatusByIdMutation>(UpdateOrderPaymentStatusByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdateOrderPaymentStatusById', 'mutation');
     },
     AddItemsToOrder(variables: AddItemsToOrderMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<AddItemsToOrderMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<AddItemsToOrderMutation>(AddItemsToOrderDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'AddItemsToOrder', 'mutation');

@@ -58,3 +58,15 @@ mutation DeleteOrderById($id: uuid!) {
     id
   }
 }
+
+mutation UpdateOrderPaymentStatusById(
+  $id: uuid!
+  $payment_status: payment_status_enum!
+) {
+  update_orders_by_pk(
+    pk_columns: { id: $id }
+    _set: { payment_status: $payment_status }
+  ) {
+    id
+  }
+}
