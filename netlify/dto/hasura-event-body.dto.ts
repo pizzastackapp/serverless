@@ -2,6 +2,7 @@ import { Orders } from '../common/sdk';
 
 export enum HasuraEvents {
   ORDER_CREATED = 'order_created',
+  ORDER_UPDATED = 'order_updated',
 }
 
 export interface HasuraEventBody {
@@ -38,12 +39,14 @@ interface Sessionvariables {
   'x-hasura-role': string;
 }
 
+type HasuraOrderData = Pick<
+  Orders,
+  'client_address' | 'client_name' | 'client_phone' | 'status' | 'id'
+>;
+
 interface Data {
-  new: Pick<
-    Orders,
-    'client_address' | 'client_name' | 'client_phone' | 'status' | 'id'
-  >;
-  old?: any;
+  new: HasuraOrderData;
+  old?: HasuraOrderData;
 }
 
 interface Deliveryinfo {

@@ -20,10 +20,7 @@ const createOrder = async (input: CreateOrderInput): Promise<string> => {
     client_phone: input.client_phone,
     comment: input.comment,
     payment_type: paymentType,
-    payment_status:
-      paymentType === Payment_Types_Enum.Online
-        ? Payment_Status_Enum.Processing
-        : null,
+    payment_status: Payment_Status_Enum.Processing,
   });
 
   const menuItems = input.items.split(',').map((orderItem) => {
